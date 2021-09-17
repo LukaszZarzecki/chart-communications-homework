@@ -6,8 +6,6 @@
     user-select: none;
 }
 
-.Pagination__break {}
-
 .Pagination__page {
     display: flex;
     align-items: center;
