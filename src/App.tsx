@@ -23,7 +23,7 @@ function App() {
             {!transactionList ? 'Loading...' : (
                 <>
                     <UserPointsTable data={transactionList} />
-                    <TransactionTable data={transactionList} />
+                    <TransactionTable data={transactionList} itemsPerPage={10} />
                 </>
             )}
         </div>

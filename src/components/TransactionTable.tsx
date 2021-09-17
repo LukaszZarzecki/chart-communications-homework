@@ -1,11 +1,24 @@
+import { useState } from 'react';
 import Transaction from '../types/Transaction';
 import getAwardPoints from '../utility/getAwardPoints';
+import Pagination from '../components/Pagination';
 
 type Props = {
-    data: Array<Transaction>
+    data: Array<Transaction>,
+    itemsPerPage: number,
 };
 
-function TransactionTable({ data }: Props) {
+function TransactionTable({ data, itemsPerPage }: Props) {
+    const [items, setItems] = useState<Array<Transaction>>(data.slice(0, itemsPerPage));
+    const pageCount: number = Math.ceil(data.length / itemsPerPage);
+
+    function handlePageChange(pageNumber: number) {
+        const startIndex = Math.max(0, pageNumber - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        setItems(data.slice(startIndex, endIndex));
+    }
+
     return (
         <>
             <h2>Order list</h2>
@@ -20,7 +33,7 @@ function TransactionTable({ data }: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(transaction => (
+                    {items.map(transaction => (
                         <tr key={transaction.id}>
                             <td>{transaction.id}</td>
                             <td>{transaction.idUser}</td>
@@ -31,6 +44,7 @@ function TransactionTable({ data }: Props) {
                     ))}
                 </tbody>
             </table>
+            <Pagination pageCount={pageCount} onPageChange={handlePageChange} />
         </>
     );
 }
